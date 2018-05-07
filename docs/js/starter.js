@@ -1,12 +1,11 @@
 ;(function () {
     "use strict";
-    window.Example = window.Example || {};
-    window.Example.htmlStarter = window.Example.htmlStarter || {};
+    window.ElmStarter = window.ElmStarter || {};
+    window.ElmStarter.htmlStarter = window.ElmStarter.htmlStarter || {};
     var conf = {
-        mode: window.Example.htmlStarter.mode || "production",
+        mode: window.ElmStarter.htmlStarter.mode || "production",
     };
-
-    window.Example.starter = conf;
+    window.ElmStarter.starter = conf;
     if (conf.mode === "debug") {
         console.info('%cMade with %c❤%c and %cElm%c', 'background: #fffbb2; color: brown; font-family: monospace', 'background: #fffbb2; color: red', 'background: #fffbb2; color: brown', 'background: #fffbb2; color: blue', 'background: #fffbb2; color: brown');
         console.log("%cRunning in " + conf.mode + " mode", "color: green");

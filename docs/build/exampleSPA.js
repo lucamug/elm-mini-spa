@@ -3299,6 +3299,7 @@ function initialize(init, update, subscriptions, renderer)
 		return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
 			var results = A2(update, msg, model);
 			model = results._0;
+			typeof ElmRemoteDev !== 'undefined' && ElmRemoteDev.send(msg, model);
 			updateView(model);
 			var cmds = results._1;
 			var subs = subscriptions(model);
@@ -13139,6 +13140,121 @@ var _elm_lang$html$Html_Attributes$classList = function (list) {
 				A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list))));
 };
 var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
+
+var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
+var _elm_lang$html$Html_Events$targetChecked = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'checked',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$bool);
+var _elm_lang$html$Html_Events$targetValue = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'value',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
+var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
+var _elm_lang$html$Html_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
+var _elm_lang$html$Html_Events$onFocus = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'focus',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onBlur = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'blur',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
+	_elm_lang$html$Html_Events$defaultOptions,
+	{preventDefault: true});
+var _elm_lang$html$Html_Events$onSubmit = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'submit',
+		_elm_lang$html$Html_Events$onSubmitOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onCheck = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetChecked));
+};
+var _elm_lang$html$Html_Events$onInput = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'input',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetValue));
+};
+var _elm_lang$html$Html_Events$onMouseOut = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseout',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseOver = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseover',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseLeave = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseleave',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseEnter = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseenter',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseUp = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseup',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseDown = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousedown',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onDoubleClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'dblclick',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'click',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$Options = F2(
+	function (a, b) {
+		return {stopPropagation: a, preventDefault: b};
+	});
 
 var _elm_lang$http$Native_Http = function() {
 
@@ -23168,7 +23284,8 @@ var _mdgriffith$stylish_elephants$Element_Font$color = function (fontColor) {
 			fontColor));
 };
 
-var _user$project$ExampleSPA$routeRoot = '#/';
+var _user$project$ExampleSPA$usingHash = true;
+var _user$project$ExampleSPA$routeRoot = _user$project$ExampleSPA$usingHash ? '#/' : '/';
 var _user$project$ExampleSPA$path = {about: 'about', contact: 'contat'};
 var _user$project$ExampleSPA$routeToString = function (page) {
 	var pieces = function () {
@@ -23211,31 +23328,38 @@ var _user$project$ExampleSPA$init = F2(
 			ctor: '_Tuple2',
 			_0: {
 				location: location,
-				mode: flag.mode,
-				windowSize: {width: flag.width, height: flag.height}
+				windowSize: {width: flag.width, height: flag.height},
+				mode: flag.mode
 			},
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
 var _user$project$ExampleSPA$update = F2(
 	function (msg, model) {
-		var _p1 = msg;
-		if (_p1.ctor === 'MsgChangeWindowSize') {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{windowSize: _p1._0}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
-		} else {
-			return {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Native_Utils.update(
-					model,
-					{location: _p1._0}),
-				_1: _elm_lang$core$Platform_Cmd$none
-			};
+		var _p1 = A2(_elm_lang$core$Debug$log, 'msg', msg);
+		switch (_p1.ctor) {
+			case 'ChangeLocation':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _elm_lang$navigation$Navigation$newUrl(_p1._0)
+				};
+			case 'MsgChangeWindowSize':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{windowSize: _p1._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{location: _p1._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 var _user$project$ExampleSPA$viewPageAbout = function (_p2) {
@@ -23311,6 +23435,32 @@ var _user$project$ExampleSPA$subscriptions = function (_p5) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$ExampleSPA$ChangeLocation = function (a) {
+	return {ctor: 'ChangeLocation', _0: a};
+};
+var _user$project$ExampleSPA$onLinkClick = function (url) {
+	return _mdgriffith$stylish_elephants$Element$htmlAttribute(
+		A3(
+			_elm_lang$html$Html_Events$onWithOptions,
+			'click',
+			{stopPropagation: false, preventDefault: true},
+			_elm_lang$core$Json_Decode$succeed(
+				_user$project$ExampleSPA$ChangeLocation(url))));
+};
+var _user$project$ExampleSPA$myLink = F2(
+	function (attributes, data) {
+		return A2(
+			_mdgriffith$stylish_elephants$Element$link,
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				{
+					ctor: '::',
+					_0: _user$project$ExampleSPA$onLinkClick(data.url),
+					_1: {ctor: '[]'}
+				},
+				attributes),
+			{url: data.url, label: data.label});
+	});
 var _user$project$ExampleSPA$MsgChangeLocation = function (a) {
 	return {ctor: 'MsgChangeLocation', _0: a};
 };
@@ -23338,7 +23488,7 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 			{
 				ctor: '::',
 				_0: A2(
-					_mdgriffith$stylish_elephants$Element$link,
+					_user$project$ExampleSPA$myLink,
 					{ctor: '[]'},
 					{
 						url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteHome),
@@ -23347,7 +23497,7 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 				_1: {
 					ctor: '::',
 					_0: A2(
-						_mdgriffith$stylish_elephants$Element$link,
+						_user$project$ExampleSPA$myLink,
 						{ctor: '[]'},
 						{
 							url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteAbout),
@@ -23356,7 +23506,7 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 					_1: {
 						ctor: '::',
 						_0: A2(
-							_mdgriffith$stylish_elephants$Element$link,
+							_user$project$ExampleSPA$myLink,
 							{ctor: '[]'},
 							{
 								url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteContact),
@@ -23402,7 +23552,7 @@ var _user$project$ExampleSPA$route = _evancz$url_parser$UrlParser$oneOf(
 		}
 	});
 var _user$project$ExampleSPA$maybeRoute = function (location) {
-	return _elm_lang$core$String$isEmpty(location.hash) ? _elm_lang$core$Maybe$Just(_user$project$ExampleSPA$RouteHome) : A2(_evancz$url_parser$UrlParser$parseHash, _user$project$ExampleSPA$route, location);
+	return _user$project$ExampleSPA$usingHash ? (_elm_lang$core$String$isEmpty(location.hash) ? _elm_lang$core$Maybe$Just(_user$project$ExampleSPA$RouteHome) : A2(_evancz$url_parser$UrlParser$parseHash, _user$project$ExampleSPA$route, location)) : (_elm_lang$core$String$isEmpty(location.pathname) ? _elm_lang$core$Maybe$Just(_user$project$ExampleSPA$RouteHome) : A2(_evancz$url_parser$UrlParser$parsePath, _user$project$ExampleSPA$route, location));
 };
 var _user$project$ExampleSPA$viewBody = function (model) {
 	var _p6 = _user$project$ExampleSPA$maybeRoute(model.location);
@@ -23516,7 +23666,7 @@ var _user$project$ExampleSPA$main = A2(
 var Elm = {};
 Elm['ExampleSPA'] = Elm['ExampleSPA'] || {};
 if (typeof _user$project$ExampleSPA$main !== 'undefined') {
-    _user$project$ExampleSPA$main(Elm['ExampleSPA'], 'ExampleSPA', {"types":{"unions":{"ExampleSPA.Msg":{"args":[],"tags":{"MsgChangeWindowSize":["{ width : Int, height : Int }"],"MsgChangeLocation":["Navigation.Location"]}}},"aliases":{"Navigation.Location":{"args":[],"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }"}},"message":"ExampleSPA.Msg"},"versions":{"elm":"0.18.0"}});
+    _user$project$ExampleSPA$main(Elm['ExampleSPA'], 'ExampleSPA', {"types":{"unions":{"ExampleSPA.Msg":{"args":[],"tags":{"MsgChangeWindowSize":["{ width : Int, height : Int }"],"MsgChangeLocation":["Navigation.Location"],"ChangeLocation":["String"]}}},"aliases":{"Navigation.Location":{"args":[],"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }"}},"message":"ExampleSPA.Msg"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

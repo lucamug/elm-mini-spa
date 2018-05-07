@@ -6,6 +6,8 @@ import Element.Background as Background
 import Element.Font as Font
 import Html
 import Html.Attributes
+import Html.Events
+import Json.Decode
 import Navigation
 import UrlParser exposing ((</>))
 import Window
@@ -85,9 +87,9 @@ viewMenu model =
         , spacing 10
         , padding 10
         ]
-        ([ link [] { url = routeToString <| RouteHome, label = text "Home" }
-         , link [] { url = routeToString <| RouteAbout, label = text "About" }
-         , link [] { url = routeToString <| RouteContact, label = text "Contact" }
+        ([ myLink [] { url = routeToString <| RouteHome, label = text "Home" }
+         , myLink [] { url = routeToString <| RouteAbout, label = text "About" }
+         , myLink [] { url = routeToString <| RouteContact, label = text "Contact" }
          ]
             ++ (if model.mode == "debug" then
                     [ text <| toString model.windowSize.width
@@ -119,6 +121,7 @@ viewBody model =
 
 type Msg
     = MsgChangeLocation Navigation.Location
+    | ChangeLocation String
     | MsgChangeWindowSize { width : Int, height : Int }
 
 
@@ -129,9 +132,16 @@ type alias Flag =
     }
 
 
+
+-- UPDATE
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    case msg of
+    case msg |> Debug.log "msg" of
+        ChangeLocation location ->
+            ( model, Navigation.newUrl location )
+
         MsgChangeWindowSize windowSize ->
             ( { model | windowSize = windowSize }, Cmd.none )
 
@@ -139,14 +149,8 @@ update msg model =
             ( { model | location = location }, Cmd.none )
 
 
-init : Flag -> Navigation.Location -> ( Model, Cmd Msg )
-init flag location =
-    ( { location = location
-      , mode = flag.mode
-      , windowSize = { width = flag.width, height = flag.height }
-      }
-    , Cmd.none
-    )
+
+-- MODEL
 
 
 type alias Model =
@@ -156,9 +160,54 @@ type alias Model =
     }
 
 
+
+-- INIT
+
+
+init : Flag -> Navigation.Location -> ( Model, Cmd Msg )
+init flag location =
+    ( { location = location
+      , windowSize = { width = flag.width, height = flag.height }
+      , mode = flag.mode
+      }
+    , Cmd.none
+    )
+
+
+
+-- HELPERS
+
+
 inLineStyle : String -> String -> Attribute Msg
 inLineStyle name value =
     htmlAttribute (Html.Attributes.style [ ( name, value ) ])
+
+
+myLink : List (Attribute Msg) -> Element.Link Msg -> Element Msg
+myLink attributes data =
+    link
+        ([ onLinkClick data.url
+         ]
+            ++ attributes
+        )
+        { url = data.url
+        , label = data.label
+        }
+
+
+onLinkClick : String -> Attribute Msg
+onLinkClick url =
+    htmlAttribute
+        (Html.Events.onWithOptions "click"
+            { stopPropagation = False
+            , preventDefault = True
+            }
+            (Json.Decode.succeed (ChangeLocation url))
+        )
+
+
+
+-- SUBSCRIPTIONS
 
 
 subscriptions : Model -> Sub Msg
@@ -166,6 +215,10 @@ subscriptions _ =
     Sub.batch
         [ Window.resizes MsgChangeWindowSize
         ]
+
+
+
+-- MAIN
 
 
 main : Program Flag Model Msg
@@ -208,9 +261,17 @@ route =
 -- INTERNAL --
 
 
+usingHash : Bool
+usingHash =
+    True
+
+
 routeRoot : String
 routeRoot =
-    "#/"
+    if usingHash then
+        "#/"
+    else
+        "/"
 
 
 routeToString : Route -> String
@@ -232,7 +293,12 @@ routeToString page =
 
 maybeRoute : Navigation.Location -> Maybe Route
 maybeRoute location =
-    if String.isEmpty location.hash then
+    if usingHash then
+        if String.isEmpty location.hash then
+            Just RouteHome
+        else
+            UrlParser.parseHash route location
+    else if String.isEmpty location.pathname then
         Just RouteHome
     else
-        UrlParser.parseHash route location
+        UrlParser.parsePath route location
