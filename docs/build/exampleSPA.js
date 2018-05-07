@@ -23249,7 +23249,7 @@ var _user$project$ExampleSPA$viewPageAbout = function (_p2) {
 				_0: _mdgriffith$stylish_elephants$Element$height(_mdgriffith$stylish_elephants$Element$fill),
 				_1: {
 					ctor: '::',
-					_0: _mdgriffith$stylish_elephants$Element_Background$image('images/back-couple.jpg'),
+					_0: _mdgriffith$stylish_elephants$Element_Background$image('images/bg04.jpg'),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -23267,7 +23267,7 @@ var _user$project$ExampleSPA$viewPageContact = function (_p3) {
 				_0: _mdgriffith$stylish_elephants$Element$height(_mdgriffith$stylish_elephants$Element$fill),
 				_1: {
 					ctor: '::',
-					_0: _mdgriffith$stylish_elephants$Element_Background$image('images/back-bridge.jpg'),
+					_0: _mdgriffith$stylish_elephants$Element_Background$image('images/bg01.jpg'),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -23285,7 +23285,7 @@ var _user$project$ExampleSPA$viewPageHome = function (_p4) {
 				_0: _mdgriffith$stylish_elephants$Element$height(_mdgriffith$stylish_elephants$Element$fill),
 				_1: {
 					ctor: '::',
-					_0: _mdgriffith$stylish_elephants$Element_Background$image('images/back-foliage.jpg'),
+					_0: _mdgriffith$stylish_elephants$Element_Background$image('images/bg02.jpg'),
 					_1: {ctor: '[]'}
 				}
 			}
@@ -23333,23 +23333,16 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 				}
 			}
 		},
-		{
-			ctor: '::',
-			_0: A2(
-				_mdgriffith$stylish_elephants$Element$link,
-				{ctor: '[]'},
-				{
-					url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteHome),
-					label: _mdgriffith$stylish_elephants$Element$text('Home')
-				}),
-			_1: {
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			{
 				ctor: '::',
 				_0: A2(
 					_mdgriffith$stylish_elephants$Element$link,
 					{ctor: '[]'},
 					{
-						url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteAbout),
-						label: _mdgriffith$stylish_elephants$Element$text('About')
+						url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteHome),
+						label: _mdgriffith$stylish_elephants$Element$text('Home')
 					}),
 				_1: {
 					ctor: '::',
@@ -23357,27 +23350,33 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 						_mdgriffith$stylish_elephants$Element$link,
 						{ctor: '[]'},
 						{
-							url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteContact),
-							label: _mdgriffith$stylish_elephants$Element$text('Contact')
+							url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteAbout),
+							label: _mdgriffith$stylish_elephants$Element$text('About')
 						}),
 					_1: {
 						ctor: '::',
-						_0: _mdgriffith$stylish_elephants$Element$text(
-							_elm_lang$core$Basics$toString(model.windowSize.width)),
-						_1: {
-							ctor: '::',
-							_0: _mdgriffith$stylish_elephants$Element$text(
-								_elm_lang$core$Basics$toString(model.windowSize.height)),
-							_1: {
-								ctor: '::',
-								_0: _mdgriffith$stylish_elephants$Element$text(model.mode),
-								_1: {ctor: '[]'}
-							}
-						}
+						_0: A2(
+							_mdgriffith$stylish_elephants$Element$link,
+							{ctor: '[]'},
+							{
+								url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteContact),
+								label: _mdgriffith$stylish_elephants$Element$text('Contact')
+							}),
+						_1: {ctor: '[]'}
 					}
 				}
-			}
-		});
+			},
+			_elm_lang$core$Native_Utils.eq(model.mode, 'debug') ? {
+				ctor: '::',
+				_0: _mdgriffith$stylish_elephants$Element$text(
+					_elm_lang$core$Basics$toString(model.windowSize.width)),
+				_1: {
+					ctor: '::',
+					_0: _mdgriffith$stylish_elephants$Element$text(
+						_elm_lang$core$Basics$toString(model.windowSize.height)),
+					_1: {ctor: '[]'}
+				}
+			} : {ctor: '[]'}));
 };
 var _user$project$ExampleSPA$route = _evancz$url_parser$UrlParser$oneOf(
 	{
@@ -23454,7 +23453,34 @@ var _user$project$ExampleSPA$view = function (model) {
 		},
 		A2(
 			_mdgriffith$stylish_elephants$Element$column,
-			{ctor: '[]'},
+			{
+				ctor: '::',
+				_0: _mdgriffith$stylish_elephants$Element$inFront(
+					A2(
+						_mdgriffith$stylish_elephants$Element$link,
+						{
+							ctor: '::',
+							_0: _mdgriffith$stylish_elephants$Element$alignRight,
+							_1: {ctor: '[]'}
+						},
+						{
+							label: A2(
+								_mdgriffith$stylish_elephants$Element$image,
+								{
+									ctor: '::',
+									_0: _mdgriffith$stylish_elephants$Element$width(
+										_mdgriffith$stylish_elephants$Element$px(60)),
+									_1: {
+										ctor: '::',
+										_0: _mdgriffith$stylish_elephants$Element$alpha(0.5),
+										_1: {ctor: '[]'}
+									}
+								},
+								{src: 'images/github.png', description: 'Fork me on Github'}),
+							url: 'https://github.com/lucamug/elm-mini-spa'
+						})),
+				_1: {ctor: '[]'}
+			},
 			{
 				ctor: '::',
 				_0: _user$project$ExampleSPA$viewMenu(model),

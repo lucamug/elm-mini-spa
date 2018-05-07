@@ -19,7 +19,7 @@ viewPageHome _ =
     el
         [ width fill
         , height fill
-        , Background.image "images/back-foliage.jpg"
+        , Background.image "images/bg02.jpg"
         ]
     <|
         none
@@ -30,7 +30,7 @@ viewPageContact _ =
     el
         [ width fill
         , height fill
-        , Background.image "images/back-bridge.jpg"
+        , Background.image "images/bg01.jpg"
         ]
     <|
         none
@@ -41,7 +41,7 @@ viewPageAbout _ =
     el
         [ width fill
         , height fill
-        , Background.image "images/back-couple.jpg"
+        , Background.image "images/bg04.jpg"
         ]
     <|
         none
@@ -66,7 +66,16 @@ view model =
         , Background.color Color.white
         ]
     <|
-        column [] [ viewMenu model, viewBody model ]
+        column
+            [ Element.inFront <|
+                link
+                    [ alignRight
+                    ]
+                    { label = image [ width <| px 60, alpha 0.5 ] { src = "images/github.png", description = "Fork me on Github" }
+                    , url = "https://github.com/lucamug/elm-mini-spa"
+                    }
+            ]
+            [ viewMenu model, viewBody model ]
 
 
 viewMenu : Model -> Element Msg
@@ -76,13 +85,18 @@ viewMenu model =
         , spacing 10
         , padding 10
         ]
-        [ link [] { url = routeToString <| RouteHome, label = text "Home" }
-        , link [] { url = routeToString <| RouteAbout, label = text "About" }
-        , link [] { url = routeToString <| RouteContact, label = text "Contact" }
-        , text <| toString model.windowSize.width
-        , text <| toString model.windowSize.height
-        , text <| model.mode
-        ]
+        ([ link [] { url = routeToString <| RouteHome, label = text "Home" }
+         , link [] { url = routeToString <| RouteAbout, label = text "About" }
+         , link [] { url = routeToString <| RouteContact, label = text "Contact" }
+         ]
+            ++ (if model.mode == "debug" then
+                    [ text <| toString model.windowSize.width
+                    , text <| toString model.windowSize.height
+                    ]
+                else
+                    []
+               )
+        )
 
 
 viewBody : Model -> Element Msg
