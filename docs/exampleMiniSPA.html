@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#fb0000">
+    <title>elm-style-framework SPA Example</title>
+    <meta name="description" content="elm-style-framework SPA Example" />
+    <link rel="shortcut icon" href="images/favicon.png">
+</head>
+
+<body>
+
+    <noscript>
+        You need to enable JavaScript to run this app.
+    </noscript>
+
+    <script>
+        (function () {
+            "use strict";
+            window.Example = window.Example || {};
+            window.Example.htmlStarter = {
+                mode: "debug",
+            };
+        })();
+    </script>
+    <!-- Script for Redux DevTools Extension as per https://github.com/utkarshkukreti/elm-remotedev -->
+    <script src="js-dev/redux-dev-tool.js"></script>
+    <!-- Fast click on mobile -->
+    <script src="js/fastclick.js"></script>
+    <!-- Elm Compiled -->
+    <script src="build/exampleSPA.js"></script>
+    <!-- Starter -->
+    <script src="js/starter.js"></script>
+</body>
+
+</html>

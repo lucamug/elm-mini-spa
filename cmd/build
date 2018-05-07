@@ -1,0 +1,5 @@
+#!/bin/bash
+elm-make --output=docs/build/exampleSPA.js src/ExampleSPA.elm  --warn --yes
+echo "Uglifying..."
+uglifyjs --output=docs/build/exampleSPA-min.js docs/js/fastclick.js docs/build/exampleSPA.js docs/js/starter.js --mangle --toplevel --compress
+echo "Done."
