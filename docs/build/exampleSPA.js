@@ -3299,7 +3299,6 @@ function initialize(init, update, subscriptions, renderer)
 		return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback) {
 			var results = A2(update, msg, model);
 			model = results._0;
-			typeof ElmRemoteDev !== 'undefined' && ElmRemoteDev.send(msg, model);
 			updateView(model);
 			var cmds = results._1;
 			var subs = subscriptions(model);
@@ -23194,6 +23193,140 @@ var _mdgriffith$stylish_elephants$Element_Background$ColorStep = function (a) {
 };
 var _mdgriffith$stylish_elephants$Element_Background$step = _mdgriffith$stylish_elephants$Element_Background$ColorStep;
 
+var _mdgriffith$stylish_elephants$Element_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
+var _mdgriffith$stylish_elephants$Element_Events$targetChecked = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'checked',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$bool);
+var _mdgriffith$stylish_elephants$Element_Events$targetValue = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'value',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _mdgriffith$stylish_elephants$Element_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
+var _mdgriffith$stylish_elephants$Element_Events$onWithOptions = F3(
+	function (event, options, decode) {
+		return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+			A3(_elm_lang$html$Html_Events$onWithOptions, event, options, decode));
+	});
+var _mdgriffith$stylish_elephants$Element_Events$on = F2(
+	function (event, decode) {
+		return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+			A2(_elm_lang$html$Html_Events$on, event, decode));
+	});
+var _mdgriffith$stylish_elephants$Element_Events$onFocus = function (_p0) {
+	return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+		_elm_lang$html$Html_Events$onFocus(_p0));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onLoseFocus = function (_p1) {
+	return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+		_elm_lang$html$Html_Events$onBlur(_p1));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onMouseMove = function (msg) {
+	return A2(
+		_mdgriffith$stylish_elephants$Element_Events$on,
+		'mousemove',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onMouseLeave = function (_p2) {
+	return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+		_elm_lang$html$Html_Events$onMouseLeave(_p2));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onMouseEnter = function (_p3) {
+	return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+		_elm_lang$html$Html_Events$onMouseEnter(_p3));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onDoubleClick = function (_p4) {
+	return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+		_elm_lang$html$Html_Events$onDoubleClick(_p4));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onClick = function (_p5) {
+	return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+		_elm_lang$html$Html_Events$onClick(_p5));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onMouseUp = function (_p6) {
+	return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+		_elm_lang$html$Html_Events$onMouseUp(_p6));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onMouseDown = function (_p7) {
+	return _mdgriffith$stylish_elephants$Internal_Model$Attr(
+		_elm_lang$html$Html_Events$onMouseDown(_p7));
+};
+var _mdgriffith$stylish_elephants$Element_Events$Coords = F2(
+	function (a, b) {
+		return {x: a, y: b};
+	});
+var _mdgriffith$stylish_elephants$Element_Events$screenCoords = A3(
+	_elm_lang$core$Json_Decode$map2,
+	_mdgriffith$stylish_elephants$Element_Events$Coords,
+	A2(_elm_lang$core$Json_Decode$field, 'screenX', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'screenY', _elm_lang$core$Json_Decode$int));
+var _mdgriffith$stylish_elephants$Element_Events$onClickScreenCoords = function (msg) {
+	return A2(
+		_mdgriffith$stylish_elephants$Element_Events$on,
+		'click',
+		A2(_elm_lang$core$Json_Decode$map, msg, _mdgriffith$stylish_elephants$Element_Events$screenCoords));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onMouseScreenCoords = function (msg) {
+	return A2(
+		_mdgriffith$stylish_elephants$Element_Events$on,
+		'mousemove',
+		A2(_elm_lang$core$Json_Decode$map, msg, _mdgriffith$stylish_elephants$Element_Events$screenCoords));
+};
+var _mdgriffith$stylish_elephants$Element_Events$localCoords = A3(
+	_elm_lang$core$Json_Decode$map2,
+	_mdgriffith$stylish_elephants$Element_Events$Coords,
+	A2(_elm_lang$core$Json_Decode$field, 'offsetX', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'offsetY', _elm_lang$core$Json_Decode$int));
+var _mdgriffith$stylish_elephants$Element_Events$onClickCoords = function (msg) {
+	return A2(
+		_mdgriffith$stylish_elephants$Element_Events$on,
+		'click',
+		A2(_elm_lang$core$Json_Decode$map, msg, _mdgriffith$stylish_elephants$Element_Events$localCoords));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onMouseCoords = function (msg) {
+	return A2(
+		_mdgriffith$stylish_elephants$Element_Events$on,
+		'mousemove',
+		A2(_elm_lang$core$Json_Decode$map, msg, _mdgriffith$stylish_elephants$Element_Events$localCoords));
+};
+var _mdgriffith$stylish_elephants$Element_Events$pageCoords = A3(
+	_elm_lang$core$Json_Decode$map2,
+	_mdgriffith$stylish_elephants$Element_Events$Coords,
+	A2(_elm_lang$core$Json_Decode$field, 'pageX', _elm_lang$core$Json_Decode$int),
+	A2(_elm_lang$core$Json_Decode$field, 'pageY', _elm_lang$core$Json_Decode$int));
+var _mdgriffith$stylish_elephants$Element_Events$onClickPageCoords = function (msg) {
+	return A2(
+		_mdgriffith$stylish_elephants$Element_Events$on,
+		'click',
+		A2(_elm_lang$core$Json_Decode$map, msg, _mdgriffith$stylish_elephants$Element_Events$pageCoords));
+};
+var _mdgriffith$stylish_elephants$Element_Events$onMousePageCoords = function (msg) {
+	return A2(
+		_mdgriffith$stylish_elephants$Element_Events$on,
+		'mousemove',
+		A2(_elm_lang$core$Json_Decode$map, msg, _mdgriffith$stylish_elephants$Element_Events$pageCoords));
+};
+var _mdgriffith$stylish_elephants$Element_Events$Options = F2(
+	function (a, b) {
+		return {stopPropagation: a, preventDefault: b};
+	});
+
 var _mdgriffith$stylish_elephants$Element_Font$glow = F2(
 	function (color, size) {
 		return _mdgriffith$stylish_elephants$Internal_Model$TextShadow(
@@ -23284,34 +23417,41 @@ var _mdgriffith$stylish_elephants$Element_Font$color = function (fontColor) {
 			fontColor));
 };
 
-var _user$project$ExampleSPA$usingHash = true;
-var _user$project$ExampleSPA$routeRoot = _user$project$ExampleSPA$usingHash ? '#/' : '/';
-var _user$project$ExampleSPA$path = {about: 'about', contact: 'contat'};
-var _user$project$ExampleSPA$routeToString = function (page) {
-	var pieces = function () {
-		var _p0 = page;
-		switch (_p0.ctor) {
-			case 'RouteHome':
-				return {ctor: '[]'};
-			case 'RouteAbout':
-				return {
-					ctor: '::',
-					_0: _user$project$ExampleSPA$path.about,
-					_1: {ctor: '[]'}
-				};
-			default:
-				return {
-					ctor: '::',
-					_0: _user$project$ExampleSPA$path.contact,
-					_1: {ctor: '[]'}
-				};
-		}
-	}();
-	return A2(
-		_elm_lang$core$Basics_ops['++'],
-		_user$project$ExampleSPA$routeRoot,
-		A2(_elm_lang$core$String$join, '/', pieces));
-};
+var _user$project$ExampleSPA$path = {about: 'about', contact: 'contact'};
+var _user$project$ExampleSPA$routeToString = F2(
+	function (typeOfNavigation, page) {
+		var pieces = function () {
+			var _p0 = page;
+			switch (_p0.ctor) {
+				case 'RouteHome':
+					return {ctor: '[]'};
+				case 'RouteAbout':
+					return {
+						ctor: '::',
+						_0: _user$project$ExampleSPA$path.about,
+						_1: {ctor: '[]'}
+					};
+				default:
+					return {
+						ctor: '::',
+						_0: _user$project$ExampleSPA$path.contact,
+						_1: {ctor: '[]'}
+					};
+			}
+		}();
+		var routeRoot = function () {
+			var _p1 = typeOfNavigation;
+			if (_p1.ctor === 'Hash') {
+				return '#/';
+			} else {
+				return '/';
+			}
+		}();
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			routeRoot,
+			A2(_elm_lang$core$String$join, '/', pieces));
+	});
 var _user$project$ExampleSPA$inLineStyle = F2(
 	function (name, value) {
 		return _mdgriffith$stylish_elephants$Element$htmlAttribute(
@@ -23321,46 +23461,6 @@ var _user$project$ExampleSPA$inLineStyle = F2(
 					_0: {ctor: '_Tuple2', _0: name, _1: value},
 					_1: {ctor: '[]'}
 				}));
-	});
-var _user$project$ExampleSPA$init = F2(
-	function (flag, location) {
-		return {
-			ctor: '_Tuple2',
-			_0: {
-				location: location,
-				windowSize: {width: flag.width, height: flag.height},
-				mode: flag.mode
-			},
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
-	});
-var _user$project$ExampleSPA$update = F2(
-	function (msg, model) {
-		var _p1 = A2(_elm_lang$core$Debug$log, 'msg', msg);
-		switch (_p1.ctor) {
-			case 'ChangeLocation':
-				return {
-					ctor: '_Tuple2',
-					_0: model,
-					_1: _elm_lang$navigation$Navigation$newUrl(_p1._0)
-				};
-			case 'MsgChangeWindowSize':
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{windowSize: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-			default:
-				return {
-					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{location: _p1._0}),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
-		}
 	});
 var _user$project$ExampleSPA$viewPageAbout = function (_p2) {
 	return A2(
@@ -23416,13 +23516,13 @@ var _user$project$ExampleSPA$viewPageHome = function (_p4) {
 		},
 		_mdgriffith$stylish_elephants$Element$none);
 };
+var _user$project$ExampleSPA$Model = F4(
+	function (a, b, c, d) {
+		return {location: a, windowSize: b, mode: c, typeOfNavigation: d};
+	});
 var _user$project$ExampleSPA$Flag = F3(
 	function (a, b, c) {
 		return {width: a, height: b, mode: c};
-	});
-var _user$project$ExampleSPA$Model = F3(
-	function (a, b, c) {
-		return {location: a, windowSize: b, mode: c};
 	});
 var _user$project$ExampleSPA$MsgChangeWindowSize = function (a) {
 	return {ctor: 'MsgChangeWindowSize', _0: a};
@@ -23435,6 +23535,7 @@ var _user$project$ExampleSPA$subscriptions = function (_p5) {
 			_1: {ctor: '[]'}
 		});
 };
+var _user$project$ExampleSPA$MsgChangeTypeOfNavigation = {ctor: 'MsgChangeTypeOfNavigation'};
 var _user$project$ExampleSPA$ChangeLocation = function (a) {
 	return {ctor: 'ChangeLocation', _0: a};
 };
@@ -23491,7 +23592,7 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 					_user$project$ExampleSPA$myLink,
 					{ctor: '[]'},
 					{
-						url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteHome),
+						url: A2(_user$project$ExampleSPA$routeToString, model.typeOfNavigation, _user$project$ExampleSPA$RouteHome),
 						label: _mdgriffith$stylish_elephants$Element$text('Home')
 					}),
 				_1: {
@@ -23500,7 +23601,7 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 						_user$project$ExampleSPA$myLink,
 						{ctor: '[]'},
 						{
-							url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteAbout),
+							url: A2(_user$project$ExampleSPA$routeToString, model.typeOfNavigation, _user$project$ExampleSPA$RouteAbout),
 							label: _mdgriffith$stylish_elephants$Element$text('About')
 						}),
 					_1: {
@@ -23509,7 +23610,7 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 							_user$project$ExampleSPA$myLink,
 							{ctor: '[]'},
 							{
-								url: _user$project$ExampleSPA$routeToString(_user$project$ExampleSPA$RouteContact),
+								url: A2(_user$project$ExampleSPA$routeToString, model.typeOfNavigation, _user$project$ExampleSPA$RouteContact),
 								label: _mdgriffith$stylish_elephants$Element$text('Contact')
 							}),
 						_1: {ctor: '[]'}
@@ -23518,13 +23619,29 @@ var _user$project$ExampleSPA$viewMenu = function (model) {
 			},
 			_elm_lang$core$Native_Utils.eq(model.mode, 'debug') ? {
 				ctor: '::',
-				_0: _mdgriffith$stylish_elephants$Element$text(
-					_elm_lang$core$Basics$toString(model.windowSize.width)),
+				_0: _mdgriffith$stylish_elephants$Element$text('|'),
 				_1: {
 					ctor: '::',
-					_0: _mdgriffith$stylish_elephants$Element$text(
-						_elm_lang$core$Basics$toString(model.windowSize.height)),
-					_1: {ctor: '[]'}
+					_0: A2(
+						_mdgriffith$stylish_elephants$Element$el,
+						{
+							ctor: '::',
+							_0: _mdgriffith$stylish_elephants$Element_Events$onClick(_user$project$ExampleSPA$MsgChangeTypeOfNavigation),
+							_1: {ctor: '[]'}
+						},
+						_mdgriffith$stylish_elephants$Element$text(
+							_elm_lang$core$Basics$toString(model.typeOfNavigation))),
+					_1: {
+						ctor: '::',
+						_0: _mdgriffith$stylish_elephants$Element$text(
+							_elm_lang$core$Basics$toString(model.windowSize.width)),
+						_1: {
+							ctor: '::',
+							_0: _mdgriffith$stylish_elephants$Element$text(
+								_elm_lang$core$Basics$toString(model.windowSize.height)),
+							_1: {ctor: '[]'}
+						}
+					}
 				}
 			} : {ctor: '[]'}));
 };
@@ -23551,23 +23668,31 @@ var _user$project$ExampleSPA$route = _evancz$url_parser$UrlParser$oneOf(
 			}
 		}
 	});
-var _user$project$ExampleSPA$maybeRoute = function (location) {
-	return _user$project$ExampleSPA$usingHash ? (_elm_lang$core$String$isEmpty(location.hash) ? _elm_lang$core$Maybe$Just(_user$project$ExampleSPA$RouteHome) : A2(_evancz$url_parser$UrlParser$parseHash, _user$project$ExampleSPA$route, location)) : (_elm_lang$core$String$isEmpty(location.pathname) ? _elm_lang$core$Maybe$Just(_user$project$ExampleSPA$RouteHome) : A2(_evancz$url_parser$UrlParser$parsePath, _user$project$ExampleSPA$route, location));
-};
-var _user$project$ExampleSPA$viewBody = function (model) {
-	var _p6 = _user$project$ExampleSPA$maybeRoute(model.location);
-	if (_p6.ctor === 'Just') {
-		var _p7 = _p6._0;
-		switch (_p7.ctor) {
-			case 'RouteAbout':
-				return _user$project$ExampleSPA$viewPageAbout(model);
-			case 'RouteContact':
-				return _user$project$ExampleSPA$viewPageContact(model);
-			default:
-				return _user$project$ExampleSPA$viewPageHome(model);
+var _user$project$ExampleSPA$maybeRoute = F2(
+	function (typeOfNavigation, location) {
+		var _p6 = typeOfNavigation;
+		if (_p6.ctor === 'Hash') {
+			return _elm_lang$core$String$isEmpty(location.hash) ? _elm_lang$core$Maybe$Just(_user$project$ExampleSPA$RouteHome) : A2(_evancz$url_parser$UrlParser$parseHash, _user$project$ExampleSPA$route, location);
+		} else {
+			return _elm_lang$core$String$isEmpty(location.pathname) ? _elm_lang$core$Maybe$Just(_user$project$ExampleSPA$RouteHome) : A2(_evancz$url_parser$UrlParser$parsePath, _user$project$ExampleSPA$route, location);
 		}
-	} else {
-		return _user$project$ExampleSPA$viewPageHome(model);
+	});
+var _user$project$ExampleSPA$navigationToRoute = F2(
+	function (typeOfNavigation, location) {
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			_user$project$ExampleSPA$RouteHome,
+			A2(_user$project$ExampleSPA$maybeRoute, typeOfNavigation, location));
+	});
+var _user$project$ExampleSPA$viewBody = function (model) {
+	var _p7 = A2(_user$project$ExampleSPA$navigationToRoute, model.typeOfNavigation, model.location);
+	switch (_p7.ctor) {
+		case 'RouteAbout':
+			return _user$project$ExampleSPA$viewPageAbout(model);
+		case 'RouteContact':
+			return _user$project$ExampleSPA$viewPageContact(model);
+		default:
+			return _user$project$ExampleSPA$viewPageHome(model);
 	}
 };
 var _user$project$ExampleSPA$view = function (model) {
@@ -23641,6 +23766,69 @@ var _user$project$ExampleSPA$view = function (model) {
 				}
 			}));
 };
+var _user$project$ExampleSPA$Path = {ctor: 'Path'};
+var _user$project$ExampleSPA$Hash = {ctor: 'Hash'};
+var _user$project$ExampleSPA$update = F2(
+	function (msg, model) {
+		var _p8 = A2(_elm_lang$core$Debug$log, 'msg', msg);
+		switch (_p8.ctor) {
+			case 'ChangeLocation':
+				return {
+					ctor: '_Tuple2',
+					_0: model,
+					_1: _elm_lang$navigation$Navigation$newUrl(_p8._0)
+				};
+			case 'MsgChangeWindowSize':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{windowSize: _p8._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'MsgChangeLocation':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{location: _p8._0}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				var typeOfNavigation = function () {
+					var _p9 = model.typeOfNavigation;
+					if (_p9.ctor === 'Hash') {
+						return _user$project$ExampleSPA$Path;
+					} else {
+						return _user$project$ExampleSPA$Hash;
+					}
+				}();
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{typeOfNavigation: typeOfNavigation}),
+					_1: _elm_lang$navigation$Navigation$newUrl(
+						A2(
+							_user$project$ExampleSPA$routeToString,
+							typeOfNavigation,
+							A2(_user$project$ExampleSPA$navigationToRoute, model.typeOfNavigation, model.location)))
+				};
+		}
+	});
+var _user$project$ExampleSPA$init = F2(
+	function (flag, location) {
+		return {
+			ctor: '_Tuple2',
+			_0: {
+				location: location,
+				windowSize: {width: flag.width, height: flag.height},
+				mode: flag.mode,
+				typeOfNavigation: _user$project$ExampleSPA$Hash
+			},
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
 var _user$project$ExampleSPA$main = A2(
 	_elm_lang$navigation$Navigation$programWithFlags,
 	_user$project$ExampleSPA$MsgChangeLocation,
@@ -23666,7 +23854,7 @@ var _user$project$ExampleSPA$main = A2(
 var Elm = {};
 Elm['ExampleSPA'] = Elm['ExampleSPA'] || {};
 if (typeof _user$project$ExampleSPA$main !== 'undefined') {
-    _user$project$ExampleSPA$main(Elm['ExampleSPA'], 'ExampleSPA', {"types":{"unions":{"ExampleSPA.Msg":{"args":[],"tags":{"MsgChangeWindowSize":["{ width : Int, height : Int }"],"MsgChangeLocation":["Navigation.Location"],"ChangeLocation":["String"]}}},"aliases":{"Navigation.Location":{"args":[],"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }"}},"message":"ExampleSPA.Msg"},"versions":{"elm":"0.18.0"}});
+    _user$project$ExampleSPA$main(Elm['ExampleSPA'], 'ExampleSPA', {"types":{"unions":{"ExampleSPA.Msg":{"args":[],"tags":{"MsgChangeTypeOfNavigation":[],"MsgChangeWindowSize":["{ width : Int, height : Int }"],"MsgChangeLocation":["Navigation.Location"],"ChangeLocation":["String"]}}},"aliases":{"Navigation.Location":{"args":[],"type":"{ href : String , host : String , hostname : String , protocol : String , origin : String , port_ : String , pathname : String , search : String , hash : String , username : String , password : String }"}},"message":"ExampleSPA.Msg"},"versions":{"elm":"0.18.0"}});
 }
 
 if (typeof define === "function" && define['amd'])

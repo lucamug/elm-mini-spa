@@ -1,2 +1,2 @@
 #!/bin/bash
-elm-live --output=docs/build/exampleSPA.js src/ExampleSPA.elm --dir=docs --debug --port=8000
+elm-live --output=docs/build/exampleSPA.js src/ExampleSPA.elm --dir=docs --debug --pushstate --port=8000

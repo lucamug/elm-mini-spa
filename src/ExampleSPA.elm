@@ -3,6 +3,7 @@ module ExampleSPA exposing (main)
 import Color
 import Element exposing (..)
 import Element.Background as Background
+import Element.Events as Events
 import Element.Font as Font
 import Html
 import Html.Attributes
@@ -87,12 +88,14 @@ viewMenu model =
         , spacing 10
         , padding 10
         ]
-        ([ myLink [] { url = routeToString <| RouteHome, label = text "Home" }
-         , myLink [] { url = routeToString <| RouteAbout, label = text "About" }
-         , myLink [] { url = routeToString <| RouteContact, label = text "Contact" }
+        ([ myLink [] { url = routeToString model.typeOfNavigation RouteHome, label = text "Home" }
+         , myLink [] { url = routeToString model.typeOfNavigation RouteAbout, label = text "About" }
+         , myLink [] { url = routeToString model.typeOfNavigation RouteContact, label = text "Contact" }
          ]
             ++ (if model.mode == "debug" then
-                    [ text <| toString model.windowSize.width
+                    [ text "|"
+                    , el [ Events.onClick MsgChangeTypeOfNavigation ] <| text <| toString model.typeOfNavigation
+                    , text <| toString model.windowSize.width
                     , text <| toString model.windowSize.height
                     ]
                 else
@@ -103,33 +106,26 @@ viewMenu model =
 
 viewBody : Model -> Element Msg
 viewBody model =
-    case maybeRoute model.location of
-        Just routeRoute ->
-            case routeRoute of
-                RouteAbout ->
-                    viewPageAbout model
+    case navigationToRoute model.typeOfNavigation model.location of
+        RouteAbout ->
+            viewPageAbout model
 
-                RouteContact ->
-                    viewPageContact model
+        RouteContact ->
+            viewPageContact model
 
-                RouteHome ->
-                    viewPageHome model
-
-        Nothing ->
+        RouteHome ->
             viewPageHome model
+
+
+
+-- MESSAGES
 
 
 type Msg
     = MsgChangeLocation Navigation.Location
     | ChangeLocation String
+    | MsgChangeTypeOfNavigation
     | MsgChangeWindowSize { width : Int, height : Int }
-
-
-type alias Flag =
-    { width : Int
-    , height : Int
-    , mode : String
-    }
 
 
 
@@ -148,6 +144,23 @@ update msg model =
         MsgChangeLocation location ->
             ( { model | location = location }, Cmd.none )
 
+        MsgChangeTypeOfNavigation ->
+            let
+                typeOfNavigation =
+                    case model.typeOfNavigation of
+                        Hash ->
+                            Path
+
+                        Path ->
+                            Hash
+            in
+            ( { model | typeOfNavigation = typeOfNavigation }
+            , Navigation.newUrl
+                (routeToString typeOfNavigation
+                    (navigationToRoute model.typeOfNavigation model.location)
+                )
+            )
+
 
 
 -- MODEL
@@ -156,6 +169,18 @@ update msg model =
 type alias Model =
     { location : Navigation.Location
     , windowSize : Window.Size
+    , mode : String
+    , typeOfNavigation : TypeOfNavigation
+    }
+
+
+
+-- FLAG
+
+
+type alias Flag =
+    { width : Int
+    , height : Int
     , mode : String
     }
 
@@ -169,6 +194,7 @@ init flag location =
     ( { location = location
       , windowSize = { width = flag.width, height = flag.height }
       , mode = flag.mode
+      , typeOfNavigation = Hash
       }
     , Cmd.none
     )
@@ -241,10 +267,15 @@ type Route
     | RouteContact
 
 
+type TypeOfNavigation
+    = Hash
+    | Path
+
+
 path : { about : String, contact : String }
 path =
     { about = "about"
-    , contact = "contat"
+    , contact = "contact"
     }
 
 
@@ -257,26 +288,17 @@ route =
         ]
 
 
-
--- INTERNAL --
-
-
-usingHash : Bool
-usingHash =
-    True
-
-
-routeRoot : String
-routeRoot =
-    if usingHash then
-        "#/"
-    else
-        "/"
-
-
-routeToString : Route -> String
-routeToString page =
+routeToString : TypeOfNavigation -> Route -> String
+routeToString typeOfNavigation page =
     let
+        routeRoot =
+            case typeOfNavigation of
+                Hash ->
+                    "#/"
+
+                Path ->
+                    "/"
+
         pieces =
             case page of
                 RouteHome ->
@@ -291,14 +313,22 @@ routeToString page =
     routeRoot ++ String.join "/" pieces
 
 
-maybeRoute : Navigation.Location -> Maybe Route
-maybeRoute location =
-    if usingHash then
-        if String.isEmpty location.hash then
-            Just RouteHome
-        else
-            UrlParser.parseHash route location
-    else if String.isEmpty location.pathname then
-        Just RouteHome
-    else
-        UrlParser.parsePath route location
+navigationToRoute : TypeOfNavigation -> Navigation.Location -> Route
+navigationToRoute typeOfNavigation location =
+    Maybe.withDefault RouteHome (maybeRoute typeOfNavigation location)
+
+
+maybeRoute : TypeOfNavigation -> Navigation.Location -> Maybe Route
+maybeRoute typeOfNavigation location =
+    case typeOfNavigation of
+        Hash ->
+            if String.isEmpty location.hash then
+                Just RouteHome
+            else
+                UrlParser.parseHash route location
+
+        Path ->
+            if String.isEmpty location.pathname then
+                Just RouteHome
+            else
+                UrlParser.parsePath route location
