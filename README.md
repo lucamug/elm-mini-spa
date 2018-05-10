@@ -2,7 +2,7 @@
 
 [Demos](http://guupa.com/elm-mini-spa/)
 
-* Install Node and Elm
+* Install Elm and elm-live
 * `$ cmd/start`
 * go to http://localhost:8000/
 
